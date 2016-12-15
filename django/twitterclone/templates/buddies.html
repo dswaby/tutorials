@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block login %}
+    {% with user.username as username %}
+        {{ block.super }}
+    {% endwith %}
+{% endblock %}
+ 
+{% block content %}
+    <div class="panel right">
+        <h1>Create a Ribbit</h1>
+        <p>
+            <form action="/submit" method="post">
+            {% for field in twitter_clone_form %}{% csrf_token %}
+            {{ field }}
+            {% endfor %}
+            <input type="hidden" value="{{ next_url }}" name="next_url">
+            <input type="submit" value="Ribbit!">
+            </form>
+        </p>
+    </div>
+    <div class="panel left">
+        <h1>Buddies' Ribbits</h1>
+        {% for twitters_buddie in twitters_buddies %}
+        <div class="twitters_buddieWrapper">
+            <a href="/users/{{ twitters_buddie.user.username }}">
+                <img class="avatar" src="{{ twitters_buddie.user.profile.gravatar_url }}">
+                <span class="name">{{ twitters_buddie.user.first_name }}</span>
+            </a>
+            @{{ twitters_buddie.user.username }}
+            <p>
+                {{ twitters_buddie.content }}
+            </p>
+        </div>
+        {% endfor %}
+    </div>
+{% endblock %}

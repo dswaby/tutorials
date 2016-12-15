@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+ 
+{% block content %}
+    <div class="panel right">
+        <h1>Create a Ribbit</h1>
+        <p>
+            <form action="/submit" method="post">
+            {% for field in twitter_form %}{% csrf_token %}
+            {{ field }}
+            {% endfor %}
+            <input type="hidden" value="{{ next_url }}" name="next_url">
+            <input type="submit" value="Ribbit!">
+            </form>
+        </p>
+    </div>
+    <div class="panel left">
+        <h1>Public Ribbits</h1>
+        {% for twitter in twitters %}
+        <div class="twitterWrapper">
+            <img class="avatar" src="{{ twitter.user.profile.gravatar_url }}">
+            <span class="name">{{ twitter.user.first_name }}</span>@{{ twitter.user.username }}
+            <span class="time">{{ twitter.creation_date|timesince }}</span>
+            <p>{{ twitter.content }}</p>
+        </div>
+        {% endfor %}
+    </div>
+{% endblock %}

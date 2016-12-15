@@ -15,7 +15,14 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+from django.conf import settings
+from django.conf.urls.static import static
+from twitter_app import views
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-]
+    # url(r'^admin/', admin.site.urls),
+    url(r'^$', views.index), # root
+    url(r'^login$', views.login_view), # login
+    url(r'^logout$', views.logout_view), # logout
+    url(r'^signup$', views.signup) # signup
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
